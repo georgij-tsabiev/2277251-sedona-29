@@ -16,7 +16,7 @@ import browser from 'browser-sync';
 // Styles
 
 export const styles = () => {
-return gulp.src('source/sass/style.scss', { sourcemaps: true })
+return gulp.src('docs/sass/style.scss', { sourcemaps: true })
 .pipe(plumber())
 .pipe(sass().on('error', sass.logError))
 .pipe(postcss([
@@ -31,14 +31,14 @@ csso()
 // HTML
 
 const html = () => {
-return gulp.src('source/*.html')
+return gulp.src('docs/*.html')
 .pipe(gulp.dest('build'));
 }
 
 // Scripts
 
 const scripts = () => {
-return gulp.src('source/js/*.js')
+return gulp.src('docs/js/*.js')
 .pipe(gulp.dest('build/js'))
 .pipe(browser.stream());
 }
@@ -46,20 +46,20 @@ return gulp.src('source/js/*.js')
 // Images
 
 const optimizeImages = () => {
-return gulp.src('source/img/**/*.{png,jpg}')
+return gulp.src('docs/img/**/*.{png,jpg}')
 .pipe(squoosh())
 .pipe(gulp.dest('build/img'))
 }
 
 const copyImages = () => {
-return gulp.src('source/img/**/*.{png,jpg}')
+return gulp.src('docs/img/**/*.{png,jpg}')
 .pipe(gulp.dest('build/img'))
 }
 
 // WebP
 
 const createWebp = () => {
-return gulp.src('source/img/**/*.{png,jpg}')
+return gulp.src('docs/img/**/*.{png,jpg}')
 .pipe(squoosh({
 webp: {}
 }))
@@ -69,12 +69,12 @@ webp: {}
 // SVG
 
 const svg = () =>
-gulp.src(['source/img/*.svg', '!source/img/icons/*.svg'])
+gulp.src(['docs/img/*.svg', '!docs/img/icons/*.svg'])
 .pipe(svgo())
 .pipe(gulp.dest('build/img'));
 
 function makeStack () {
-return gulp.src('source/img/icons/*.svg')
+return gulp.src('docs/img/icons/*.svg')
 .pipe(stacksvg({ output: 'stack' }))
 .pipe(gulp.dest('build/img'))
 }
@@ -83,11 +83,11 @@ return gulp.src('source/img/icons/*.svg')
 
 const copy = (done) => {
 gulp.src([
-'source/fonts/*.{woff2,woff}',
-'source/*.ico',
-'source/*.webmanifest'
+'docs/fonts/*.{woff2,woff}',
+'docs/*.ico',
+'docs/*.webmanifest'
 ], {
-base: 'source'
+base: 'docs'
 })
 .pipe(gulp.dest('build'))
 done();
@@ -123,9 +123,9 @@ done();
 // Watcher
 
 const watcher = () => {
-gulp.watch('source/sass/**/*.scss', gulp.series(styles));
-gulp.watch('source/js/script.js', gulp.series(scripts));
-gulp.watch('source/*.html', gulp.series(html, reload));
+gulp.watch('docs/sass/**/*.scss', gulp.series(styles));
+gulp.watch('docs/js/script.js', gulp.series(scripts));
+gulp.watch('docs/*.html', gulp.series(html, reload));
 }
 
 // Build
